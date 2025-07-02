@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AboutRijeka</title>
+    <link rel="stylesheet" href="kultura.css">
+</head>
+<body>
+<div class="sidebar">
+    <a class="icon-button" href="index.html"><img src="kucica.svg" alt="Kucica"></a>
+    <a class="icon-button" href="kultura.html"><img src="crkva.svg" alt="Crkva"></a>
+    <a class="icon-button" href="sport.html"><img src="lopta.svg" alt="Lopta"></a>
+    <a class="icon-button" href="voda.html"><img src="more.svg" alt="More5"></a>
+    <a class="icon-button" href="promet.html"><img src="bus.svg" alt="Bus"></a>
+</div>
+
+<div class="naslovi">
+    <h1 class="title">AboutRiječkoVrijeme</h1>
+    <p class="subtitle">Ako se nešto čudno desi, svugdje će padati kiša, ali u Rijeci će biti sunčano!</p>
+
+    <div class="plavi-kontejner" id="weather-card">
+        <h2>Vrijeme u Rijeci</h2>
+        <div class="weather-report">
+            <div>
+                <p style="display: none;"><strong>Opis:</strong> <span id="opis"></span></p>
+                <p><strong>Temperatura:</strong> <span id="temp"></span> °C</p>
+                <p><strong>Vlaga:</strong> <span id="vlaga"></span> %</p>
+                <p><strong>Tlak:</strong> <span id="tlak"></span> hPa</p>
+            </div>
+            <img id="vrijeme-slika" src="" alt="Vrijeme">
+        </div>
+
+    </div>
+
+    <div class="plavi-kontejner">
+        <h2>Pogledaj vrijeme.</h2>
+        <p>Za detaljnije informacije posjeti <a href="https://meteo.hr/prognoze.php?Code=14317&id=prognoza&section=prognoze_model&param=7d&el=hrvatska" target="_blank">službenu</a> stranicu DHMZ.</p>
+    </div>
+</div>
+
+
+<footer style="text-align:center; padding:20px;">© 2025 AboutRijeka | Sva prava pridržana.</footer>
+
+<script>
+    async function getWeather() {
+        try {
+            const res = await fetch('/vrijemes');
+            const data = await res.json();
+
+            const opis = data.opis?.toLowerCase().trim() || "nepoznato";
+
+            // Map weather descriptions to image filenames
+            const weatherImages = {
+                "sunčano": "sun-light.svg",
+                "vedro": "sun-light.svg",
+                "umjereno oblačno": "cloud-sunny.svg",
+                "djelomice oblačno": "cloud-sunny.svg",
+                "pretežno oblačno": "cloud.svg",
+                "pretežno vedro": "sun-light.svg",
+                "oblačno": "cloud.svg",
+                "kiša": "rain.svg",
+                "pljuskovi": "thunderstorm.svg",
+                "snijeg": "snow.svg",
+                "magla": "fog.svg",
+                "vjetrovito": "wind.svg",
+                "slab vjetar": "svgviewer-output.svg",
+                "nepoznato": "unknown.png"
+            };
+
+            const imageFile = weatherImages[opis] || "unknown.png";
+
+            // Update DOM elements
+            document.getElementById('opis').textContent = data.opis || "Nepoznato";
+            document.getElementById('temp').textContent = data.temperatura;
+            document.getElementById('vlaga').textContent = data.vlaga;
+            document.getElementById('tlak').textContent = data.tlak;
+
+            const imgEl = document.getElementById('vrijeme-slika');
+            if (imgEl) {
+                imgEl.src = `/images/${imageFile}`;
+                imgEl.alt = data.opis || "Nepoznato";
+            }
+
+        } catch (err) {
+            console.error('Greška kod dohvata vremena:', err);
+        }
+    }
+
+    getWeather();
+    setInterval(getWeather, 300); // osvježava svakih 5 minuta
+</script>
+
+
+</body>
+</html>
