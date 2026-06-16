@@ -65,7 +65,7 @@ AboutRijeka/
 
 1. Klonirati repozitorij:
 
-git clone https://github.com/username/aboutrijeka.git
+git clone https://github.com/rino2505/aboutrijeka.git
 
 2. Otvoriti datoteku `index.html` u web pregledniku.
 
@@ -140,7 +140,7 @@ AboutRijeka/
 
 1. Clone the repository:
 
-git clone https://github.com/username/aboutrijeka.git
+git clone https://github.com/rino2505/aboutrijeka.git
 
 2. Open `index.html` in your web browser.
 
